@@ -1,0 +1,12 @@
+{
+	"PORT": 21,
+	"DIR": "E:/tempftp",
+	"THREAD": 16,
+	"USER": [{
+		"NAME": "123",
+		"PASS": "123"
+	}, {
+		"NAME": "abc",
+		"PASS": "abc"
+	}]
+}

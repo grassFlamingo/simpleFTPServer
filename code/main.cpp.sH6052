@@ -1,0 +1,32 @@
+#include <iostream>
+
+#include "Socket.h"
+#include "ThreadPool.h"
+#include "FTPHandler.h"
+#include "Session.h"
+#include "setting.h"
+
+int main(int argc, char *argv[])
+{
+    User::initUserMap();
+    FTPHandler::initCmdFunctionList();
+    try{
+        Socket::init();
+        Socket soc(AF_INET, SOCK_STREAM,IPPROTO_IP);
+
+        soc.Bind(8989);
+        soc.Listen(16);
+        ThreadPool pool(16);
+        pool.startAll();
+        printf("MY SOCKET(%s)\n", soc.ToStringMyIPPort());
+        do{
+            pool.push(soc.Accept());
+        }while(1);
+        pool.joinAll();
+    }catch(Exception *e){
+        printf("%s\n",e->getMessage());
+        e->handeled();
+        delete e;
+    }
+    return 0;
+}
